@@ -47,7 +47,9 @@ class UIThread(QtCore.QThread):
         pause나 stop이 활성화되어있을 때, 깨운다.
         """
         if self.bitfield.confirm(Constant.pause | Constant.stop):
+            self.__mutex.lock()
             self.__condition.wakeAll()
+            self.__mutex.unlock()
 
     def set_num(self, val: int):
         """
@@ -60,8 +62,10 @@ class UIThread(QtCore.QThread):
 
         # 카운트다운 구현
         for i in range(numm, -1, -1):
-            if self.bitfield.confirm(Constant.pause):
+            self.__mutex.lock()
+            while self.bitfield.confirm(Constant.pause):
                 self.__condition.wait(self.__mutex)
+            self.__mutex.unlock()
 
             if not self.bitfield.confirm(Constant.stop):
                 self.signals.number.emit(i)
