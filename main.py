@@ -171,7 +171,7 @@ class Main(QtWidgets.QMainWindow):
         """
         log_time = self.end_time - self.start_time
         ok, text = qt_lib.QtLibs.input_dialog('Make Task Log', 'Write file name with ".txt"\nIt saves in $HOME', self)
-        with open(pathlib.Path('/home/rapa/', text), 'wt') as fp:
+        with open(pathlib.Path('C:\\Users\\Admin\\Desktop', text), 'wt') as fp:
             fp.write(f'Task name : {self.view.todo_work.text()}'
                      f'\nEstimated Time : {self.total_time//3600}hour {self.total_time%3600//60}minute {self.total_time%60}second'
                      f'\nStart Time : {self.start_time}'
